@@ -17,6 +17,10 @@ public class Car {
     @Column(name = "series")
     private int series;
 
+    @OneToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private User owner;
+
     public Car(String model, int series) {
         this.model = model;
         this.series = series;
@@ -49,12 +53,21 @@ public class Car {
         this.series = series;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
                 "id=" + id +
                 ", model='" + model + '\'' +
                 ", series=" + series +
+                ", owner id=" + owner.getId() +
                 '}';
     }
 

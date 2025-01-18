@@ -1,6 +1,7 @@
 package hiber.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,8 +21,7 @@ public class User {
    @Column(name = "email")
    private String email;
 
-   @OneToOne(cascade = CascadeType.ALL)
-   @JoinColumn(name = "id")
+   @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
    private Car car;
 
    public User() {}
@@ -70,16 +70,17 @@ public class User {
 
    public void setCar(Car car) {
       this.car = car;
+      car.setOwner(this);
    }
 
    @Override
    public String toString() {
       return "User{" +
               "id=" + id +
-              ", firstName='" + firstName + '\'' +
-              ", lastName='" + lastName + '\'' +
-              ", email='" + email + '\'' +
-              ", car=" + car +
+              ", \nfirstName='" + firstName + '\'' +
+              ", \nlastName='" + lastName + '\'' +
+              ", \nemail='" + email + '\'' +
+              ", \ncars=" + car +
               '}';
    }
 
@@ -88,11 +89,11 @@ public class User {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       User user = (User) o;
-      return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(car, user.car);
+      return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
    }
 
    @Override
    public int hashCode() {
-      return Objects.hash(id, firstName, lastName, email, car);
+      return Objects.hash(id, firstName, lastName, email);
    }
 }
